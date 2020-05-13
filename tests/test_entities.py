@@ -31,27 +31,66 @@ class TestRover(TestCase):
         self.assertEqual(r1.state, RoverState.OPERATIONAL)
         self.assertEqual(r2.state, RoverState.ERROR)
 
+    def test_move_north(self):
+        g = Grid(3, 3)
+        r1 = Rover(g, Location(2, 2), Direction.N)
+        self.assertTrue(r1.move(Movement.M))
+        self.assertEqual(r1.grid, g)
+        self.assertEqual(r1.location, Location(2, 3))
+        self.assertEqual(r1.direction, Direction.N)
+
+    def test_move_east(self):
+        g = Grid(3, 3)
+        r1 = Rover(g, Location(2, 2), Direction.E)
+        self.assertTrue(r1.move(Movement.M))
+        self.assertEqual(r1.grid, g)
+        self.assertEqual(r1.location, Location(3, 2))
+        self.assertEqual(r1.direction, Direction.E)
+
+    def test_move_south(self):
+        g = Grid(3, 3)
+        r1 = Rover(g, Location(2, 2), Direction.S)
+        self.assertTrue(r1.move(Movement.M))
+        self.assertEqual(r1.grid, g)
+        self.assertEqual(r1.location, Location(2, 1))
+        self.assertEqual(r1.direction, Direction.S)
+
+    def test_move_west(self):
+        g = Grid(3, 3)
+        r1 = Rover(g, Location(2, 2), Direction.W)
+        self.assertTrue(r1.move(Movement.M))
+        self.assertEqual(r1.grid, g)
+        self.assertEqual(r1.location, Location(1, 2))
+        self.assertEqual(r1.direction, Direction.W)
+
     def test_move(self):
         g = Grid(3, 3)
         r1 = Rover(g, Location(1, 1), Direction.N)
         r1.move(Movement.M, Movement.R, Movement.M, Movement.M)
-        self.assertEqual(
-            r1, Rover(g, Location(2, 3), Direction.E, RoverState.OPERATIONAL)
-        )
+        self.assertEqual(r1.grid, g)
+        self.assertEqual(r1.location, Location(3, 2))
+        self.assertEqual(r1.direction, Direction.E)
+        self.assertEqual(r1.state, RoverState.OPERATIONAL)
 
     def test_move_collision(self):
         g = Grid(3, 3)
-        r2 = Rover(g, Location(2, 2), Direction.S)
         r1 = Rover(g, Location(1, 1), Direction.N)
-        self.assertTrue(r1.move(Movement.M, Movement.R, Movement.M, Movement.M))
-        self.assertEqual(r1, Rover(g, Location(1, 2), Direction.E, RoverState.STOPPED))
+        r2 = Rover(g, Location(2, 2), Direction.S)
+        self.assertFalse(r1.move(Movement.M, Movement.R, Movement.M, Movement.M))
+        self.assertEqual(r1.grid, g)
+        self.assertEqual(r1.location, Location(1, 2))
+        self.assertEqual(r1.direction, Direction.E)
+        self.assertEqual(r1.state, RoverState.STOPPED)
         self.assertEqual(r2.state, RoverState.OPERATIONAL)
 
     def test_move_border_collision(self):
         g = Grid(3, 3)
         r1 = Rover(g, Location(1, 1), Direction.N)
         self.assertFalse(r1.move(Movement.M, Movement.M, Movement.M))
-        self.assertEqual(r1, Rover(g, Location(1, 3), Direction.N, RoverState.STOPPED))
+        self.assertEqual(r1.grid, g)
+        self.assertEqual(r1.location, Location(1, 3))
+        self.assertEqual(r1.direction, Direction.N)
+        self.assertEqual(r1.state, RoverState.STOPPED)
 
     def test_disabled_movement(self):
         g = Grid(3, 3)
