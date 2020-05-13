@@ -1,4 +1,5 @@
 from enum import Enum
+from collections import namedtuple
 
 
 class Direction(Enum):
@@ -23,3 +24,8 @@ class Movement(Enum):
     M = 10
     L = 11
     R = 12
+
+
+Location = namedtuple('Location', ('x', 'y'))
+Grid = namedtuple('Grid', ('length', 'width'))
+Rover = namedtuple('Rover', ('grid', 'location', 'direction'))
