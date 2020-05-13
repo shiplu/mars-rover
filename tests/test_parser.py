@@ -27,7 +27,9 @@ class TestPositionParser(TestCase):
 class TestMoveSequenceParser(TestCase):
     def test_basic(self):
         parsed_move_sequence = MoveSequenceParser("LMRM")
-        self.assertEqual(parsed_move_sequence.moves, [Movement.L, Movement.M, Movement.R, Movement.M])
+        self.assertEqual(
+            parsed_move_sequence.moves, [Movement.L, Movement.M, Movement.R, Movement.M]
+        )
 
 
 class TestInputParser(TestCase):
@@ -35,11 +37,17 @@ class TestInputParser(TestCase):
         parsed_input = InputParser("4 5\n1 2 N\nLML\n3 3 E\nMMR")
         self.assertEqual(parsed_input.grid, Grid(4, 5))
         self.assertEqual(len(parsed_input.rovers_moves), 2)
-        self.assertEqual(parsed_input.rovers_moves[0][0],
-                         Rover(Grid(4, 5), Location(1, 2), Direction.N))
-        self.assertEqual(parsed_input.rovers_moves[0][1],
-                         [Movement.L, Movement.M, Movement.L])
-        self.assertEqual(parsed_input.rovers_moves[1][0],
-                         Rover(Grid(4, 5), Location(3, 3), Direction.E))
-        self.assertEqual(parsed_input.rovers_moves[1][1],
-                         [Movement.M, Movement.M, Movement.R])
+        self.assertEqual(
+            parsed_input.rovers_moves[0][0],
+            Rover(Grid(4, 5), Location(1, 2), Direction.N),
+        )
+        self.assertEqual(
+            parsed_input.rovers_moves[0][1], [Movement.L, Movement.M, Movement.L]
+        )
+        self.assertEqual(
+            parsed_input.rovers_moves[1][0],
+            Rover(Grid(4, 5), Location(3, 3), Direction.E),
+        )
+        self.assertEqual(
+            parsed_input.rovers_moves[1][1], [Movement.M, Movement.M, Movement.R]
+        )
