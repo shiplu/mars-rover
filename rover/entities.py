@@ -32,7 +32,7 @@ class RoverState(Enum):
     ERROR = "error"
 
 
-Location = namedtuple("Location", ('x', 'y'))
+Location = namedtuple("Location", ("x", "y"))
 
 
 class Grid:
@@ -44,11 +44,11 @@ class Grid:
         self.rovers = set([])
 
     def __eq__(self, other):
-        return (self.length == other.length and self.width == other.width)
+        return self.length == other.length and self.width == other.width
 
     def __repr__(self):
-        return '{}({!r}, {!r})'.format(self.__class__.__name__, self.length, self.width)
-        
+        return "{}({!r}, {!r})".format(self.__class__.__name__, self.length, self.width)
+
     def add(self, rover):
         self.rovers.add(rover)
 
@@ -100,10 +100,16 @@ class Rover:
             self.state = RoverState.ERROR
 
     def __eq__(self, other):
-        return (self.location == other.location and self.direction == other.direction and self.state == other.state)
+        return (
+            self.location == other.location
+            and self.direction == other.direction
+            and self.state == other.state
+        )
 
     def __repr__(self):
-        return '{}({!r}, {!r}, {!r})'.format(self.__class__.__name__, self.location, self.direction, self.state)
+        return "{}({!r}, {!r}, {!r})".format(
+            self.__class__.__name__, self.location, self.direction, self.state
+        )
 
     def __hash__(self):
         return id(self)
@@ -118,7 +124,9 @@ class Rover:
                 continue
             deltaX, deltaY = self.movement_map[self.direction]
             new_location = Location(self.location.x + deltaX, self.location.y + deltaY)
-            if not (self.grid.is_inside(new_location) and self.grid.is_free(new_location)):
+            if not (
+                self.grid.is_inside(new_location) and self.grid.is_free(new_location)
+            ):
                 self.state = RoverState.STOPPED
                 return False
             self.location = new_location
