@@ -61,7 +61,7 @@ class Grid(SlottedBase):
         rover.grid = self
 
     def is_inside(self, location):
-        return location.x <= self.length and location.y <= self.width
+        return 0 < location.x <= self.length and 0 < location.y <= self.width
 
     def is_free(self, location):
         for rover in self.rovers:
