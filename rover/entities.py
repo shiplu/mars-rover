@@ -35,30 +35,22 @@ class RoverState(Enum):
 Location = namedtuple("Location", ('x', 'y'))
 
 
-class SlottedBase:
-    __slots__ = ()
-
-    def __eq__(self, other):
-        return all(
-            getattr(self, slot) == getattr(other, slot) for slot in self.__slots__
-        )
-
-    def __repr__(self):
-        args = ", ".join("{!r}".format(getattr(self, slot)) for slot in self.__slots__)
-        return "{}({})".format(self.__class__.__name__, args)
-
-
-class Grid(SlottedBase):
+class Grid:
     __slots__ = ("length", "width", "rovers")
 
-    def __init__(self, length, width, rovers=None):
+    def __init__(self, length, width):
         self.length = length
         self.width = width
-        self.rovers = rovers or set([])
+        self.rovers = set([])
 
+    def __eq__(self, other):
+        return (self.length == other.length and self.width == other.width)
+
+    def __repr__(self):
+        return '{}({!r}, {!r})'.format(self.__class__.__name__, self.length, self.width)
+        
     def add(self, rover):
         self.rovers.add(rover)
-        rover.grid = self
 
     def is_inside(self, location):
         return 0 < location.x <= self.length and 0 < location.y <= self.width
@@ -71,7 +63,7 @@ class Grid(SlottedBase):
             return True
 
 
-class Rover(SlottedBase):
+class Rover:
     __slots__ = ("grid", "location", "direction", "state")
 
     direction_map = {
@@ -106,6 +98,12 @@ class Rover(SlottedBase):
             self.grid.add(self)
         else:
             self.state = RoverState.ERROR
+
+    def __eq__(self, other):
+        return (self.location == other.location and self.direction == other.direction and self.state == other.state)
+
+    def __repr__(self):
+        return '{}({!r}, {!r}, {!r})'.format(self.__class__.__name__, self.location, self.direction, self.state)
 
     def __hash__(self):
         return id(self)
