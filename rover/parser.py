@@ -43,7 +43,7 @@ class InputParser(BaseParser):
                 self.grid, parsed_position.location, parsed_position.direction
             )
 
-            movemnet_sequences = MoveSequenceParser(lines[position_index + 1])
-            moves = movemnet_sequences.moves
+            movement_sequences = MoveSequenceParser(lines[position_index + 1])
+            moves = movement_sequences.moves
 
             self.rovers_moves.append((rover, moves))
