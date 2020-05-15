@@ -36,12 +36,13 @@ Location = namedtuple("Location", ("x", "y"))
 
 
 class Grid:
-    __slots__ = ("length", "width", "rovers")
+    __slots__ = ("length", "width", "rovers", "locations")
 
     def __init__(self, length, width):
         self.length = length
         self.width = width
         self.rovers = []
+        self.locations = set()
 
     def __eq__(self, other):
         return self.length == other.length and self.width == other.width
@@ -51,11 +52,19 @@ class Grid:
 
     def add(self, rover):
         self.rovers.append(rover)
+        self.fill(rover.location)
+
+    def fill(self, location):
+        self.locations.add(location)
+
+    def free(self, location):
+        self.locations.discard(location)
 
     def is_inside(self, location):
         return 0 < location.x <= self.length and 0 < location.y <= self.width
 
     def is_free(self, location):
+        return location not in self.locations
         for rover in self.rovers:
             if rover.location == location:
                 return False
@@ -64,7 +73,7 @@ class Grid:
 
 
 class Rover:
-    __slots__ = ("grid", "location", "direction", "state")
+    __slots__ = ("grid", "_location", "direction", "state")
 
     direction_map = {
         Movement.RIGHT: {
@@ -88,16 +97,30 @@ class Rover:
     }
 
     def __init__(self, grid, location, direction, state=None):
-        self.location = location
-        self.direction = direction
-        self.state = state or RoverState.OPERATIONAL
         self.grid = None
+        self.state = state or RoverState.OPERATIONAL
+        self.direction = direction
+        self.location = location
 
         if grid.is_free(location):
             self.grid = grid
             self.grid.add(self)
         else:
             self.state = RoverState.ERROR
+
+    @property
+    def location(self):
+        return self._location
+
+    @location.setter
+    def location(self, value):
+        if self.grid is not None:
+            self.grid.free(self._location)
+
+        self._location = value
+
+        if self.grid is not None:
+            self.grid.fill(self._location)
 
     def __eq__(self, other):
         return (
