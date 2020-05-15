@@ -11,7 +11,7 @@ for input in "${TEST_CASE_DIR}"/input*.txt
 do
     output=$(echo "${input}" | sed -r 's/input(.*)\.txt/output\1.txt/')
     echo -n "${input:$((${#TEST_CASE_DIR} + 1))} ... "
-    if cmp <(python ui/cli.py -f text "${input}") <"${output}"
+    if cmp -s <(python "${PROJECT_ROOT}/ui/cli.py" -f text "${input}") <"${output}"
     then
         echo PASSED
     else
