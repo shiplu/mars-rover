@@ -33,7 +33,7 @@ class MoveSequenceParser(BaseParser):
 
 class InputParser(BaseParser):
     def _parse(self, data):
-        lines = data.splitlines()
+        lines = data.strip().splitlines()
         self.grid = GridParser(lines[0]).grid
         self.rovers_moves = []
         for position_index in list(range(1, len(lines), 2)):
