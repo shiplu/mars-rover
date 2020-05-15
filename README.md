@@ -14,9 +14,9 @@ Assumptions
 Input
 -----
 
-L W
-X Y D
-MMM...
+    L W
+    X Y D
+    MMM...
 
 Here first line defines grid length and width. Next line is the initial postion of a rover. X and W is the length and width-wise co-ordinate. Co-ordinates stars from 1. X and Y has following constrait for the value.
 
