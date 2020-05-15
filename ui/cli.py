@@ -67,10 +67,9 @@ class Format:
 
     def text(grid):
         lines = []
-        for rover_index, rover in enumerate(grid.rovers):
+        for rover in grid.rovers:
             lines.append(
-                "{:2}: {} {} {} {}".format(
-                    rover_index,
+                "{} {} {} {}".format(
                     rover.location.x,
                     rover.location.y,
                     rover.direction.name[:1],
