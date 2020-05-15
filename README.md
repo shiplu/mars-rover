@@ -1,14 +1,23 @@
 Description
 ===========
 
-This project shows the movement of a mars-rover on plateau. The plateu is defined as a grid. After that some rovers are deployed there. Then command sequence is sent to the rovers and they move accordingly.
+This project shows the movement of a mars-rover on plateau. The plateau is defined as a grid. After that some rovers are deployed there. Then command sequence is sent to the rovers and they move accordingly.
 
 Assumptions
 ===========
 
 1. It takes time for the rover to move from one grid to another. It involves moving it's wheel to go forward in a very carefully. Hence it's not very practical to have high performance move calculation.
 2. If a rover is deployed on a grid-cell where a rover already exists, the new rover will not be deployed. It'll be in ERROR state. If it's deployed in an empty cell it'll be in OPERATIONAL state. If there is a collision to the border of the plateau or other rover happens after deployment it'll be marked as STOPPED. Only OPERATIONAL state allows rover to move forward
-3. First all the rovers are deployed and then the movement sequence are sent. In real world this would be completely parallel. For this solution we didn't opt for parallel exection as there are many challenges to take care of. For exmaple, grid state syhchronization.
+3. First all the rovers are deployed and then the movement sequence are sent. In real world this would be completely parallel. For this solution we didn't opt for parallel execution as there are many challenges to take care of. For example, grid state synchronization.
+4. The bottom left corner cell in the grid has co-ordinate (1, 1). For example, a 5x5 grid with a rover on (2, 3) cordinate with direction North will look like this.
+
+          5|   |   |   |   |   |
+          4|   |   |   |   |   |
+          3|   |1↑♥|   |   |   |
+          2|   |   |   |   |   |
+          1|   |   |   |   |   |
+              1   2   3   4   5
+
 
 
 Input Output Specification
@@ -21,14 +30,14 @@ Input
     X Y D
     MMM...
 
-Here first line defines grid length and width. Next line is the initial postion of a rover. X and W is the length and width-wise co-ordinate. Co-ordinates stars from 1. X and Y has following constrait for the value.
+Here first line defines grid length and width. Next line is the initial position of a rover. X and W is the length and width-wise co-ordinate. Co-ordinates stars from 1. X and Y has following constraint for the value.
 
     1 <= X <= L
     1 <= Y <= W
 
-D is the direction of the rover. It can be any N, E, S, and W which mean  North, Eash, South, and West respectively.
+D is the direction of the rover. It can be any N, E, S, and W which mean  North, East, South, and West respectively.
 
-Last line contains move sequeces of this rover. A rove can move forward, turn left, or turn right. These moves are denoted by M, L, and R respectively. 
+Last line contains move sequences of this rover. A rove can move forward, turn left, or turn right. These moves are denoted by M, L, and R respectively. 
 
 Sample Input
 ------------
@@ -54,7 +63,7 @@ The output contains the location, direction and state of each rover.
 
 Here S is the state of the rover. It can be any of `OPERATIONAL` or `STOPPED`. 
 
-*Note*: Even though `ERROR` is a valid state, it doens't lead the rover to the plateau. Hence in the output it's not shown.
+*Note*: Even though `ERROR` is a valid state, it doesn't lead the rover to the plateau. Hence in the output it's not shown.
 
 Sample Output
 -------------
@@ -81,7 +90,7 @@ Recommended Configuration
 2. Python 3.7
 
 
-HOWTO
+HOW-TO
 =====
 
 All the commands below assumes you are on project root directory in a terminal. If you are not in the project root folder, you need to change the paths accordingly
@@ -91,6 +100,8 @@ All the commands below assumes you are on project root directory in a terminal. 
 If the input text is in file `input.txt` then we can get the output (as seen above) by running following python program.
 
     PYTHONPATH=. python3.7 ui/cli.py input.txt
+
+The program has many options. Please use `--help` to see those options. It's also possible to see the output in a ascii based graphical view.
 
 ### Run unit tests
 
