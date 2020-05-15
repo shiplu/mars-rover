@@ -14,10 +14,12 @@ do
 
     echo -n "${testname:$((${#TEST_CASE_DIR} + 1))} ... "
 
+    SECONDS=0
+
     if cmp -s <(python3.7 "${PROJECT_ROOT}/ui/cli.py" -f text "${input}") < "${output}"
     then
-        echo PASSED
+        echo ${SECONDS}s PASSED
     else
-        echo FAILED
+        echo ${SECONDS}s FAILED
     fi
 done | column -t
