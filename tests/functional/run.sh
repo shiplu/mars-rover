@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 TEST_CASE_DIR=$(dirname $(realpath $0))
 PROJECT_ROOT="$(dirname $(dirname ${TEST_CASE_DIR}))"
 
