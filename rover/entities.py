@@ -41,7 +41,7 @@ class Grid:
     def __init__(self, length, width):
         self.length = length
         self.width = width
-        self.rovers = set([])
+        self.rovers = []
 
     def __eq__(self, other):
         return self.length == other.length and self.width == other.width
@@ -50,7 +50,7 @@ class Grid:
         return "{}({!r}, {!r})".format(self.__class__.__name__, self.length, self.width)
 
     def add(self, rover):
-        self.rovers.add(rover)
+        self.rovers.append(rover)
 
     def is_inside(self, location):
         return 0 < location.x <= self.length and 0 < location.y <= self.width
