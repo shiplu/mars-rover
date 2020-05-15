@@ -1,3 +1,5 @@
+# coding:utf-8
+
 """Command line interface for mars rover control center"""
 
 import argparse
@@ -44,7 +46,7 @@ class Format:
             rows.append(row)
 
         # set the rovers
-        for rover_index, rover in enumerate(grid.rovers):
+        for rover_index, rover in enumerate(grid.rovers, 1):
             text = "{}{}{}".format(
                 rover_index,
                 cls.direction_map[rover.direction],
