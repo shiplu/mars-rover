@@ -7,11 +7,14 @@ PROJECT_ROOT="$(dirname $(dirname ${TEST_CASE_DIR}))"
 
 export PYTHONPATH=${PYTHONPATH:-$PROJECT_ROOT}
 
-for input in "${TEST_CASE_DIR}"/input*.txt
+for input in "${TEST_CASE_DIR}"/*.in
 do
-    output=$(echo "${input}" | sed -r 's/input(.*)\.txt/output\1.txt/')
-    echo -n "${input:$((${#TEST_CASE_DIR} + 1))} ... "
-    if cmp -s <(python3.7 "${PROJECT_ROOT}/ui/cli.py" -f text "${input}") <"${output}"
+    testname=${input:0:-3}
+    output=${testname}.out
+
+    echo -n "${testname:$((${#TEST_CASE_DIR} + 1))} ... "
+
+    if cmp -s <(python3.7 "${PROJECT_ROOT}/ui/cli.py" -f text "${input}") < "${output}"
     then
         echo PASSED
     else
